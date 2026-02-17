@@ -1,6 +1,8 @@
 name: Publish AUR
 
 on:
+  release:
+    types: [published]
   push:
     tags:
       - 'v*'
@@ -20,7 +22,7 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.9.0
+        uses: webfactory/ssh-agent@v0.7.0
         with:
           ssh-private-key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
 
@@ -37,7 +39,8 @@ jobs:
         run: |
           cd aur-pkg
           sed -i "s/^pkgver=.*/pkgver=${{ steps.vars.outputs.version }}/" PKGBUILD
-          makepkg --printsrcinfo > .SRCINFO
+          # Copy .SRCINFO dari repo utama (hasil generate manual)
+          cp ../.SRCINFO .
 
       - name: Commit & Push to AUR
         run: |
@@ -45,5 +48,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add PKGBUILD .SRCINFO
-          git commit -m "auto: update to v${{ steps.vars.outputs.version }}" || echo "No changes"
+          git commit -m "auto: update to v${{ steps.vars.outputs.version }}" || echo "No changes to commit"
           git push
