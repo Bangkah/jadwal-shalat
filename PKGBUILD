@@ -1,4 +1,3 @@
-
 # Maintainer: Muhammad Dhiyaul Atha <mdhiyaulatha@gmail.com>
 
 pkgname=jadwal-shalat
