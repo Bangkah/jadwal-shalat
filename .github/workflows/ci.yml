@@ -10,25 +10,25 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [3.11, 3.12, 3.14]
+        python-version: [3.11, 3.12, 3.13]
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Install dependency
-      run: |
-        pip install requests
+      - name: Install dependency
+        run: |
+          pip install requests
 
-    - name: Check syntax
-      run: |
-        python -m py_compile jadwal-shalat.py
+      - name: Check syntax
+        run: |
+          python -m py_compile jadwal-shalat.py
 
-    - name: Run tool
-      run: |
-        python jadwal-shalat.py || true
+      - name: Run tool
+        run: |
+          python jadwal-shalat.py || true
