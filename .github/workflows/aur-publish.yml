@@ -1,0 +1,47 @@
+name: Publish AUR
+
+on:
+  release:
+    types: [published]
+
+
+  aur:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+
+      - name: Extract version
+        id: vars
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.8.1
+        with:
+          ssh-private-key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+
+      - name: Add AUR to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan aur.archlinux.org >> ~/.ssh/known_hosts
+
+      - name: Clone AUR repo
+        run: |
+          git clone ssh://aur@aur.archlinux.org/jadwal-shalat.git aur-pkg
+
+      - name: Update PKGBUILD version
+        run: |
+          cd aur-pkg
+          sed -i "s/^pkgver=.*/pkgver=${{ steps.vars.outputs.version }}/" PKGBUILD
+          makepkg --printsrcinfo > .SRCINFO
+
+      - name: Commit & Push to AUR
+        run: |
+          cd aur-pkg
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add PKGBUILD .SRCINFO
+          git commit -m "auto: update to v${{ steps.vars.outputs.version }}" || echo "No changes to commit"
+          git push
