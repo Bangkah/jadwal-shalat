@@ -190,5 +190,3 @@ Bebas digunakan, dimodifikasi, dan didistribusikan.
 
 Muhammad Dhiyaul Atha  
 GitHub: https://github.com/Bangkah
-
----
