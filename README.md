@@ -1,56 +1,37 @@
+
 # jadwal-shalat
 
-## Deskripsi
-CLI tool untuk menampilkan jadwal shalat sesuai lokasi otomatis (berdasarkan IP publik) atau manual. Mendukung fallback API, timezone akurat, dan output profesional.
+CLI tool profesional untuk menampilkan jadwal shalat berdasarkan lokasi otomatis (IP publik) atau manual. Dirancang ringan, cepat, akurat, dan siap untuk distribusi Linux (AUR, pip, dll).
 
-## Fitur
-- Ambil IP publik user
+---
+
+## Fitur Utama
+
+- Deteksi IP publik otomatis
 - Deteksi lokasi otomatis (kota, negara, koordinat, timezone)
-- Fallback API lokasi jika utama gagal
-- Ambil jadwal shalat dari API Aladhan (method Kemenag Indonesia)
-- Output terminal rapi, info waktu shalat berikutnya
-- Error handling dan timeout
-- Header versi CLI
+- Fallback API lokasi jika layanan utama gagal
+- Menggunakan API Aladhan dengan metode Kemenag Indonesia (method=20)
+- Menampilkan jadwal shalat lengkap
+- Menampilkan waktu shalat berikutnya + countdown
+- Output terminal rapi dan profesional
+- Error handling lengkap
+- Timeout protection untuk API
+- Mendukung timezone akurat
+- CLI ringan dan cepat
+- Siap untuk packaging AUR
 
-## Instalasi
+---
 
-### Prasyarat
-- Python 3.9+
-- requests
-- zoneinfo (Python 3.9+; untuk sistem minimal, install python-tzdata)
+## Screenshot
 
-### Install dependencies
-```
-pip install requests
-```
-
-### Download
-Clone repo:
-```
-git clone https://github.com/Bangkah/jadwal-shalat.git
-cd jadwal-shalat
 ```
 
-### Jalankan
-```
-python jadwal-shalat.py
-```
-
-## Penggunaan
-
-Jalankan tanpa argumen:
-```
-./jadwal-shalat.py
-```
-
-Output:
-```
-jadwal-shalat v1.0.0
-====================
+# jadwal-shalat v1.0.0
 
 === Jadwal Shalat ===
 Tanggal             : 18 Februari 2026
 Lokasi              : Banda Aceh, Indonesia
+
 Imsak               : 05:46
 Subuh               : 05:56
 Terbit              : 06:54
@@ -66,41 +47,148 @@ Matahari Terbenam   : 18:51
 Tengah Malam        : 00:53
 Sepertiga Malam Awal: 22:52
 Sepertiga Malam Akhir: 02:53
+
 ```
 
-## Opsi Manual (Opsional)
+---
 
-Untuk versi berikutnya, bisa ditambah:
-- `--city` untuk input manual
-- `--lat --lon` untuk koordinat manual
-- `--method` untuk memilih metode jadwal
+## Instalasi
 
-## Error Handling
-- Timeout API: pesan error ramah
-- Lokasi gagal: fallback otomatis
-- Jadwal shalat gagal: pesan error
+### Prasyarat
 
-## Rilis
+- Python 3.9 atau lebih baru
+- requests
+- tzdata (untuk beberapa sistem Linux minimal)
 
-1. Pastikan semua dependensi terinstall.
-2. Commit dan push ke GitHub.
-3. Tambahkan PKGBUILD untuk AUR:
+---
+
+### Install via pip (manual)
+
 ```
-depends=('python' 'python-requests')
-optdepends=('python-tzdata: timezone database (untuk beberapa sistem minimal)')
+pip install requests
 ```
-4. Tag rilis di GitHub:
+
+---
+
+### Install dari GitHub
+
 ```
-git tag v1.0.0
+git clone https://github.com/Bangkah/jadwal-shalat.git
+cd jadwal-shalat
+chmod +x jadwal-shalat.py
 ```
-5. Push tag:
+
+Jalankan:
+
 ```
-git push --tags
+./jadwal-shalat.py
 ```
+
+atau:
+
+```
+python jadwal-shalat.py
+```
+
+---
+
+## Cara Kerja
+
+1. Mengambil IP publik user
+2. Mengubah IP menjadi lokasi geografis
+3. Mengambil timezone akurat
+4. Mengambil jadwal shalat dari API Aladhan
+5. Menampilkan jadwal dan waktu shalat berikutnya
+
+---
+
+## Dependensi
+
+Library Python:
+
+```
+requests
+zoneinfo (built-in Python 3.9+)
+```
+
+---
+
+## Kompatibilitas
+
+- Linux ✅
+- Arch Linux ✅ (AUR ready)
+- Ubuntu ✅
+- Debian ✅
+- Fedora ✅
+- macOS ✅
+- Windows ✅
+
+---
+
+## Struktur Project
+
+```
+jadwal-shalat/
+│
+├── jadwal-shalat.py
+├── README.md
+├── LICENSE
+└── .github/workflows/ci.yml
+```
+
+---
+
+## Roadmap
+
+Fitur yang direncanakan:
+
+- [ ] Input manual kota
+- [ ] Input manual koordinat
+- [ ] Pilihan metode perhitungan
+- [ ] Output JSON
+- [ ] Mode minimal
+- [ ] Notifikasi waktu shalat
+- [ ] Packaging PyPI
+- [ ] Packaging AUR
+
+---
+
+## Keamanan & Privasi
+
+Tool ini:
+
+- Tidak menyimpan data user
+- Tidak mengirim data sensitif
+- Hanya menggunakan API publik untuk lokasi dan jadwal
+
+---
 
 ## Kontribusi
-Pull request dan issue dipersilakan.
+
+Kontribusi sangat diterima.
+
+Langkah:
+
+```
+fork repo
+buat branch baru
+commit perubahan
+buat pull request
+```
+
+---
 
 ## Lisensi
-MIT
-# jadwal-shalat
+
+MIT License
+
+Bebas digunakan, dimodifikasi, dan didistribusikan.
+
+---
+
+## Author
+
+Muhammad Dhiyaul Atha  
+GitHub: https://github.com/Bangkah
+
+---
