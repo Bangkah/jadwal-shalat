@@ -39,7 +39,6 @@ jobs:
         run: |
           cd aur-pkg
           sed -i "s/^pkgver=.*/pkgver=${{ steps.vars.outputs.version }}/" PKGBUILD
-          # Copy .SRCINFO dari repo utama (hasil generate manual)
           cp ../.SRCINFO .
 
       - name: Commit & Push to AUR
