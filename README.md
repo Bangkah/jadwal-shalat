@@ -1,7 +1,6 @@
-
 # jadwal-shalat
 
-CLI tool profesional untuk menampilkan jadwal shalat berdasarkan lokasi otomatis (IP publik) atau manual. Dirancang ringan, cepat, akurat, dan siap untuk distribusi Linux (AUR, pip, dll).
+CLI tool profesional untuk menampilkan jadwal shalat otomatis berdasarkan lokasi IP publik atau input manual. Output rapi, akurat, dan siap distribusi (AUR, pip, dsb).
 
 ---
 
@@ -10,82 +9,50 @@ CLI tool profesional untuk menampilkan jadwal shalat berdasarkan lokasi otomatis
 - Deteksi IP publik otomatis
 - Deteksi lokasi otomatis (kota, negara, koordinat, timezone)
 - Fallback API lokasi jika layanan utama gagal
-- Menggunakan API Aladhan dengan metode Kemenag Indonesia (method=20)
-- Menampilkan jadwal shalat lengkap
-- Menampilkan waktu shalat berikutnya + countdown
-- Output terminal rapi dan profesional
-- Error handling lengkap
-- Timeout protection untuk API
-- Mendukung timezone akurat
-- CLI ringan dan cepat
-- Siap untuk packaging AUR
+- API Aladhan (method=20/Kemenag Indonesia)
+- Jadwal shalat lengkap + waktu berikutnya & countdown
+- Output terminal rapi (warna, alignment)
+- Error handling & timeout protection
+- Support timezone akurat
+- Siap packaging AUR (auto update via GitHub Actions)
 
 ---
 
 ## Screenshot
 
-```
-
-# jadwal-shalat v1.0.0
-
-=== Jadwal Shalat ===
-Tanggal             : 18 Februari 2026
-Lokasi              : Banda Aceh, Indonesia
-
-Imsak               : 05:46
-Subuh               : 05:56
-Terbit              : 06:54
-Dzuhur              : 12:53
-Ashar               : 16:12
-Maghrib             : 18:51
-Isya                : 19:49
-
-Shalat berikutnya   : Subuh (05:56) - 2 jam lagi
-
-Info Tambahan:
-Matahari Terbenam   : 18:51
-Tengah Malam        : 00:53
-Sepertiga Malam Awal: 22:52
-Sepertiga Malam Akhir: 02:53
-
-```
-
----
+![alt text](image.png)
 
 ## Instalasi
 
-### Prasyarat
+### Arch Linux/AUR (direkomendasikan)
 
-- Python 3.9 atau lebih baru
-- requests
-- tzdata (untuk beberapa sistem Linux minimal)
+```
+yay -S jadwal-shalat
+```
 
----
-
-### Install via pip (manual)
+### Manual (pip)
 
 ```
 pip install requests
 ```
 
----
-
-### Install dari GitHub
-
+Clone repo:
 ```
 git clone https://github.com/Bangkah/jadwal-shalat.git
 cd jadwal-shalat
 chmod +x jadwal-shalat.py
-```
-
-Jalankan:
-
-```
 ./jadwal-shalat.py
 ```
 
-atau:
+---
 
+## Cara Pakai
+
+```
+jadwal-shalat
+```
+
+Atau (manual):
 ```
 python jadwal-shalat.py
 ```
@@ -94,95 +61,74 @@ python jadwal-shalat.py
 
 ## Cara Kerja
 
-1. Mengambil IP publik user
-2. Mengubah IP menjadi lokasi geografis
-3. Mengambil timezone akurat
-4. Mengambil jadwal shalat dari API Aladhan
-5. Menampilkan jadwal dan waktu shalat berikutnya
+1. Ambil IP publik user
+2. Deteksi lokasi & timezone
+3. Ambil jadwal shalat dari API Aladhan
+4. Tampilkan jadwal & waktu berikutnya
 
 ---
 
 ## Dependensi
 
-Library Python:
-
-```
-requests
-zoneinfo (built-in Python 3.9+)
-```
+- Python >= 3.9 (zoneinfo built-in)
+- requests
+- python-tzdata (opsional, untuk timezone di beberapa distro)
 
 ---
 
 ## Kompatibilitas
 
-- Linux ✅
-- Arch Linux ✅ (AUR ready)
-- Ubuntu ✅
-- Debian ✅
-- Fedora ✅
-- macOS ✅
-- Windows ✅
+- Arch Linux (AUR) ✅
+- Ubuntu/Debian/Fedora/macOS/Windows ✅
 
 ---
 
 ## Struktur Project
 
 ```
-jadwal-shalat/
-│
 ├── jadwal-shalat.py
-├── README.md
+├── PKGBUILD
+├── .SRCINFO
 ├── LICENSE
-└── .github/workflows/ci.yml
+├── README.md
+└── .github/workflows/
 ```
 
 ---
 
 ## Roadmap
 
-Fitur yang direncanakan:
-
-- [ ] Input manual kota
-- [ ] Input manual koordinat
-- [ ] Pilihan metode perhitungan
+- [x] Auto update AUR via GitHub Actions
+- [x] Output countdown waktu shalat berikutnya
+- [x] Fallback API lokasi
+- [x] Output terminal profesional
+- [ ] Input manual kota/koordinat
 - [ ] Output JSON
-- [ ] Mode minimal
 - [ ] Notifikasi waktu shalat
 - [ ] Packaging PyPI
-- [ ] Packaging AUR
 
 ---
 
 ## Keamanan & Privasi
 
-Tool ini:
-
 - Tidak menyimpan data user
 - Tidak mengirim data sensitif
-- Hanya menggunakan API publik untuk lokasi dan jadwal
+- Hanya menggunakan API publik
 
 ---
 
 ## Kontribusi
 
-Kontribusi sangat diterima.
-
-Langkah:
-
-```
-fork repo
-buat branch baru
-commit perubahan
-buat pull request
-```
+1. Fork repo
+2. Buat branch baru
+3. Commit perubahan
+4. Pull request
 
 ---
 
 ## Lisensi
 
 MIT License
-
-Bebas digunakan, dimodifikasi, dan didistribusikan.
 
 ---
 
