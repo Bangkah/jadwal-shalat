@@ -7,7 +7,7 @@ CLI tool profesional untuk menampilkan jadwal shalat otomatis berdasarkan lokasi
 ## Fitur Utama
 
 - Deteksi IP publik otomatis atau input manual (`--city`, `--lat/--lon`, `--timezone`).
-- GeoIP offline (opsional) dengan fallback ke lokasi tersimpan terakhir.
+- GeoIP offline (opsional) dengan fallback ipapi.co online dan lokasi tersimpan terakhir.
 - Cache lokal per-tanggal, bisa dimatikan via `--no-cache` saat butuh data baru.
 - API Aladhan dengan dukungan pemilihan metode (`--method kemenag|mwl|...`).
 - Jadwal lengkap + countdown shalat berikutnya, termasuk lintas hari.
@@ -56,7 +56,7 @@ python jadwal-shalat.py
 
 ## Cara Kerja
 
-1. Ambil IP publik user (jika GeoIP aktif) atau gunakan input manual/cached.
+1. Ambil IP publik user (GeoIP offline/ipapi.co) atau gunakan input manual/cached.
 2. Deteksi lokasi & timezone (GeoIP, Nominatim, atau lokasi terakhir).
 3. Ambil jadwal shalat dari API Aladhan untuk tanggal terkait dan simpan ke cache.
 4. Hitung countdown jadwal berikutnya; jika hari sudah berganti, ambil jadwal besok.
@@ -107,17 +107,6 @@ python jadwal-shalat.py
 
 ---
 
-## Build Snap Lokal
-
-```
-snapcraft clean
-snapcraft pack
-sudo snap install jadwal-shalat_1.1.0_amd64.snap --dangerous
-```
-
-Gunakan `snapcraft pack` (tanpa subcommand lama) supaya kompatibel dengan Snapcraft terbaru. Build pertama kali akan mengunduh base image Multipass sehingga bisa memakan beberapa menit, build selanjutnya jauh lebih cepat.
-
----
 
 ## Keamanan & Privasi
 

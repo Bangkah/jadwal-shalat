@@ -207,6 +207,23 @@ def get_location_from_city(city: str):
 		'timezone': None
 	}
 
+
+def get_location_from_ip_api():
+	resp = requests.get('https://ipapi.co/json/', timeout=5, headers={'User-Agent': DEFAULT_USER_AGENT})
+	resp.raise_for_status()
+	data = resp.json()
+	lat = data.get('latitude') or data.get('lat')
+	lon = data.get('longitude') or data.get('lon')
+	if lat is None or lon is None:
+		raise RuntimeError('Respons ipapi.co tidak menyertakan koordinat.')
+	return {
+		'city': data.get('city') or 'Lokasi Tidak Dikenal',
+		'country': data.get('country_name') or data.get('country') or 'Unknown',
+		'latitude': float(lat),
+		'longitude': float(lon),
+		'timezone': data.get('timezone')
+	}
+
 def resolve_location(args):
 	if args.lat is not None or args.lon is not None:
 		if args.lat is None or args.lon is None:
@@ -234,6 +251,14 @@ def resolve_location(args):
 			print(f'Peringatan: GeoIP offline gagal digunakan ({exc}).')
 	else:
 		print('Peringatan: Modul geoip2 tidak tersedia. Gunakan argumen manual atau lokasi tersimpan.')
+	try:
+		loc = get_location_from_ip_api()
+		print('Info: Menggunakan deteksi lokasi via ipapi.co (online).')
+		if args.timezone:
+			loc['timezone'] = args.timezone
+		return loc
+	except Exception as exc:
+		print(f'Peringatan: Deteksi lokasi via ipapi.co gagal ({exc}).')
 	last_loc = load_last_location()
 	if last_loc:
 		print('Info: Menggunakan lokasi terakhir dari ~/.config/jadwal-shalat/config.json')
