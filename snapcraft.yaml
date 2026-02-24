@@ -1,0 +1,33 @@
+name: jadwal-shalat
+base: core22
+version: '1.1.0'
+summary: CLI tool profesional jadwal shalat otomatis
+description: |
+  CLI tool profesional untuk menampilkan jadwal shalat otomatis
+  berdasarkan lokasi IP atau manual.
+  Mendukung lokasi otomatis, output terminal rapi,
+  dan info waktu shalat berikutnya.
+
+confinement: strict
+grade: stable
+
+apps:
+  jadwal-shalat:
+    command: bin/jadwal-shalat
+    plugs:
+      - network
+
+parts:
+  jadwal-shalat:
+    plugin: python
+    source: .
+    python-requirements:
+      - requirements.txt
+    override-build: |
+      craftctl default
+      install -Dm755 jadwal-shalat.py $CRAFT_PART_INSTALL/bin/jadwal-shalat
+      if [ -f GeoLite2-City.mmdb ]; then
+        install -Dm644 GeoLite2-City.mmdb $CRAFT_PART_INSTALL/bin/GeoLite2-City.mmdb
+      else
+        echo "Peringatan: GeoLite2-City.mmdb tidak ditemukan; deteksi lokasi otomatis akan gagal." >&2
+      fi

@@ -1,20 +1,19 @@
 # jadwal-shalat
 
-CLI tool profesional untuk menampilkan jadwal shalat otomatis berdasarkan lokasi IP publik atau input manual. Output rapi, akurat, dan siap distribusi (AUR, pip, dsb).
+CLI tool profesional untuk menampilkan jadwal shalat otomatis berdasarkan lokasi IP publik atau input manual. Output rapi, akurat, punya cache lokal, dan siap distribusi (AUR, Snap, dsb).
 
 ---
 
 ## Fitur Utama
 
-- Deteksi IP publik otomatis
-- Deteksi lokasi otomatis (kota, negara, koordinat, timezone)
-- Fallback API lokasi jika layanan utama gagal
-- API Aladhan (method=20/Kemenag Indonesia)
-- Jadwal shalat lengkap + waktu berikutnya & countdown
-- Output terminal rapi (warna, alignment)
-- Error handling & timeout protection
-- Support timezone akurat
-- Siap packaging AUR (auto update via GitHub Actions)
+- Deteksi IP publik otomatis atau input manual (`--city`, `--lat/--lon`, `--timezone`).
+- GeoIP offline (opsional) dengan fallback ke lokasi tersimpan terakhir.
+- Cache lokal per-tanggal, bisa dimatikan via `--no-cache` saat butuh data baru.
+- API Aladhan dengan dukungan pemilihan metode (`--method kemenag|mwl|...`).
+- Jadwal lengkap + countdown shalat berikutnya, termasuk lintas hari.
+- Timezone akurat berkat modul `zoneinfo` builtin Python 3.9+.
+- Error handling & timeout agar CLI tetap responsif.
+- Siap dikemas ke AUR, Snap, maupun instalasi manual.
 
 ---
 
@@ -33,15 +32,11 @@ yay -S jadwal-shalat
 ### Manual (pip)
 
 ```
-pip install requests
-```
-
-Clone repo:
-```
 git clone https://github.com/Bangkah/jadwal-shalat.git
 cd jadwal-shalat
-chmod +x jadwal-shalat.py
-./jadwal-shalat.py
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+./jadwal-shalat.py --help
 ```
 
 ---
@@ -61,10 +56,11 @@ python jadwal-shalat.py
 
 ## Cara Kerja
 
-1. Ambil IP publik user
-2. Deteksi lokasi & timezone
-3. Ambil jadwal shalat dari API Aladhan
-4. Tampilkan jadwal & waktu berikutnya
+1. Ambil IP publik user (jika GeoIP aktif) atau gunakan input manual/cached.
+2. Deteksi lokasi & timezone (GeoIP, Nominatim, atau lokasi terakhir).
+3. Ambil jadwal shalat dari API Aladhan untuk tanggal terkait dan simpan ke cache.
+4. Hitung countdown jadwal berikutnya; jika hari sudah berganti, ambil jadwal besok.
+5. Tampilkan jadwal utama + info tambahan di terminal.
 
 ---
 
@@ -72,7 +68,8 @@ python jadwal-shalat.py
 
 - Python >= 3.9 (zoneinfo built-in)
 - requests
-- python-tzdata (opsional, untuk timezone di beberapa distro)
+- geoip2 (opsional, untuk deteksi lokasi offline)
+- python-tzdata (opsional, untuk distro tertentu)
 
 ---
 
@@ -100,20 +97,33 @@ python jadwal-shalat.py
 
 - [x] Auto update AUR via GitHub Actions
 - [x] Output countdown waktu shalat berikutnya
-- [x] Fallback API lokasi
-- [x] Output terminal profesional
-- [ ] Input manual kota/koordinat
+- [x] Fallback API lokasi + simpan lokasi terakhir
+- [x] Input manual kota/koordinat
+- [x] Paket Snap (strict confinement)
 - [ ] Output JSON
 - [ ] Notifikasi waktu shalat
 - [ ] Packaging PyPI
+- [ ] Engine perhitungan offline
+
+---
+
+## Build Snap Lokal
+
+```
+snapcraft clean
+snapcraft pack
+sudo snap install jadwal-shalat_1.1.0_amd64.snap --dangerous
+```
+
+Gunakan `snapcraft pack` (tanpa subcommand lama) supaya kompatibel dengan Snapcraft terbaru. Build pertama kali akan mengunduh base image Multipass sehingga bisa memakan beberapa menit, build selanjutnya jauh lebih cepat.
 
 ---
 
 ## Keamanan & Privasi
 
-- Tidak menyimpan data user
+- Tidak menyimpan data user selain lokasi terakhir di `~/.config/jadwal-shalat/`
 - Tidak mengirim data sensitif
-- Hanya menggunakan API publik
+- Hanya menggunakan API publik (Aladhan, Nominatim, ipify)
 
 ---
 
