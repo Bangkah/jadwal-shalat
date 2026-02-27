@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 CLI tool: jadwal-shalat
 
@@ -112,7 +111,6 @@ def find_existing_geoip_db(custom_path: str | None):
 	return None
 
 
-
 def _cache_file_name(lat, lon, method_key, date_key):
 	safe_lat = f"{lat:.6f}"
 	safe_lon = f"{lon:.6f}"
@@ -174,6 +172,7 @@ def build_event_datetime(date_obj, time_str, tz):
 	if tz:
 		return datetime(date_obj.year, date_obj.month, date_obj.day, hour, minute, tzinfo=tz)
 	return datetime(date_obj.year, date_obj.month, date_obj.day, hour, minute)
+
 
 def parse_args():
 	parser = argparse.ArgumentParser(description='jadwal-shalat CLI')
@@ -360,6 +359,7 @@ def finalize_location(loc, timezone_override=None, apply_reverse=False):
 		loc = enrich_location_with_reverse(loc)
 	return loc
 
+
 def resolve_location(args):
 	if args.lat is not None or args.lon is not None:
 		if args.lat is None or args.lon is None:
@@ -434,6 +434,7 @@ def get_jadwal_shalat(lat, lon, method_code, date_str):
 		raise RuntimeError("Gagal mengambil jadwal shalat.")
 	return data['data']['timings']
 
+
 def main():
 	ensure_app_dirs()
 	args = parse_args()
@@ -494,7 +495,7 @@ def main():
 	print(f'Lokasi              : {loc["city"]}, {loc["country"]}')
 
 	# Tampilkan jadwal utama
-	waktu_utama = ['Imsak','Subuh','Terbit','Dzuhur','Ashar','Maghrib','Isya']
+	waktu_utama = ['Imsak', 'Subuh', 'Terbit', 'Dzuhur', 'Ashar', 'Maghrib', 'Isya']
 	today_date = now.date()
 	for k in waktu_utama:
 		eng_key = mapping_eng.get(k)
@@ -558,13 +559,6 @@ def main():
 
 	# Info tambahan
 	print('\nInfo Tambahan:')
-	for eng_key in ['Sunset','Midnight','Firstthird','Lastthird']:
+	for eng_key in ['Sunset', 'Midnight', 'Firstthird', 'Lastthird']:
 		if eng_key in jadwal:
 			print(f'{mapping_id.get(eng_key, eng_key):<20}: {jadwal[eng_key]}')
-
-if __name__ == '__main__':
-	try:
-		main()
-	except Exception as e:
-		print(f"Terjadi error: {e}")
-		sys.exit(1)

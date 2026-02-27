@@ -7,7 +7,7 @@ CLI tool profesional untuk menampilkan jadwal shalat otomatis berdasarkan lokasi
 ## Fitur Utama
 
 - Deteksi IP publik otomatis atau input manual (`--city`, `--lat/--lon`, `--timezone`).
-- GeoIP offline (opsional) dengan fallback ipapi.co online dan lokasi tersimpan terakhir.
+- GeoIP offline (opsional) dengan auto-scan file GeoLite2 di ~/.config, ~/.local/share/GeoIP, /usr/share/GeoIP, dsb. Fallback ipapi.co, ipwho.is, ip-api.com, dan ipapi.ipspeed.info (butuh API key) plus lokasi tersimpan terakhir. Koordinat dari IP otomatis diperkaya lewat reverse geocoding Nominatim agar nama kota lebih akurat.
 - Cache lokal per-tanggal, bisa dimatikan via `--no-cache` saat butuh data baru.
 - API Aladhan dengan dukungan pemilihan metode (`--method kemenag|mwl|...`).
 - Jadwal lengkap + countdown shalat berikutnya, termasuk lintas hari.
@@ -56,7 +56,7 @@ python jadwal-shalat.py
 
 ## Cara Kerja
 
-1. Ambil IP publik user (GeoIP offline/ipapi.co) atau gunakan input manual/cached.
+1. Ambil IP publik user (GeoIP offline/ipapi.co/ipwho.is/ip-api.com/ipapi.ipspeed.info) atau gunakan input manual/cached, lalu lakukan reverse geocoding ke Nominatim untuk memastikan nama kota/kabupaten tepat.
 2. Deteksi lokasi & timezone (GeoIP, Nominatim, atau lokasi terakhir).
 3. Ambil jadwal shalat dari API Aladhan untuk tanggal terkait dan simpan ke cache.
 4. Hitung countdown jadwal berikutnya; jika hari sudah berganti, ambil jadwal besok.
@@ -70,6 +70,12 @@ python jadwal-shalat.py
 - requests
 - geoip2 (opsional, untuk deteksi lokasi offline)
 - python-tzdata (opsional, untuk distro tertentu)
+
+### API Key Opsional
+
+- Atur variabel lingkungan `JADWAL_SHALAT_IPSPEED_KEY` atau gunakan `--ipspeed-key` untuk mengaktifkan fallback ipapi.ipspeed.info.
+- File GeoLite2-City.mmdb dapat ditempatkan di `./GeoLite2-City.mmdb`, `~/.config/jadwal-shalat/`, `~/.local/share/GeoIP/`, `/usr/share/GeoIP/`, atau `/var/lib/GeoIP/` supaya mode GeoIP offline otomatis aktif.
+- ip-api.com tidak butuh API key, tapi gratisnya dibatasi 45 permintaan/menit/IP. CLI akan memberi pesan jika limit tercapai.
 
 ---
 
