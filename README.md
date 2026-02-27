@@ -1,6 +1,58 @@
-# jadwal-shalat
+# bangkah-jadwal-shalat
 
 CLI tool profesional untuk menampilkan jadwal shalat otomatis berdasarkan lokasi IP publik atau input manual. Output rapi, akurat, punya cache lokal, dan siap distribusi (AUR, Snap, dsb).
+
+---
+
+
+## Instalasi
+
+### Arch Linux/AUR (Direkomendasikan)
+
+Paket AUR lebih terintegrasi dengan sistem, auto update, dan dependensi otomatis.
+
+```bash
+yay -S jadwal-shalat
+```
+
+### pip (Alternatif)
+
+Jika tidak menggunakan Arch Linux, bisa install via PyPI:
+
+```bash
+pip install bangkah-jadwal-shalat
+```
+
+Jika pip error (misal: ModuleNotFoundError: No module named 'pip'), jalankan:
+```bash
+python -m ensurepip --upgrade
+python -m pip install --upgrade pip
+```
+
+---
+
+## Penggunaan
+
+Jalankan command:
+
+```bash
+jadwal-shalat
+```
+
+Contoh:
+
+```bash
+jadwal-shalat --city Surabaya
+jadwal-shalat --lat -7.25 --lon 112.7 --timezone Asia/Jakarta
+```
+
+Untuk opsi dan bantuan:
+
+```bash
+jadwal-shalat --help
+```
+
+---
 
 ---
 
@@ -21,35 +73,52 @@ CLI tool profesional untuk menampilkan jadwal shalat otomatis berdasarkan lokasi
 
 ![alt text](image.png)
 
+yay -S jadwal-shalat
+git clone https://github.com/Bangkah/jadwal-shalat.git
+
 ## Instalasi
 
-### Arch Linux/AUR (direkomendasikan)
+### pip (direkomendasikan)
 
+```bash
+pip install bangkah-jadwal-shalat
 ```
+
+Jika pip error (misal: ModuleNotFoundError: No module named 'pip'), jalankan:
+```bash
+python -m ensurepip --upgrade
+python -m pip install --upgrade pip
+```
+
+### Arch Linux/AUR
+
+```bash
 yay -S jadwal-shalat
-```
-
-### Manual (pip)
-
-```
-git clone https://github.com/Bangkah/jadwal-shalat.git
-cd jadwal-shalat
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-./jadwal-shalat.py --help
 ```
 
 ---
 
-## Cara Pakai
+jadwal-shalat
 
-```
+## Penggunaan
+
+Jalankan command:
+
+```bash
 jadwal-shalat
 ```
 
-Atau (manual):
+Contoh:
+
+```bash
+jadwal-shalat --city Surabaya
+jadwal-shalat --lat -7.25 --lon 112.7 --timezone Asia/Jakarta
 ```
-python jadwal-shalat.py
+
+Untuk opsi dan bantuan:
+
+```bash
+jadwal-shalat --help
 ```
 
 ---
